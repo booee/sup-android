@@ -28,7 +28,7 @@ android {
 	buildToolsVersion project.ext.versions.buildTools
 
 	defaultConfig {
-		applicationId "com.soccersession"
+		applicationId "us.broani.sup"
 		minSdkVersion project.ext.versions.minSdk
 		targetSdkVersion project.ext.versions.sdk
 		versionCode 1
