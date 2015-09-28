@@ -1,5 +1,8 @@
 language: android
 sudo: false
+branches:
+  only:
+    - master
 android:
   components:
     - build-tools-23.0.1
