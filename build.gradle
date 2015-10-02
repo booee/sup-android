@@ -5,7 +5,7 @@ buildscript {
 			, appcompatv7: "23.0.1"
 			, buildTools : "23.0.1"
 			, minSdk     : 16
-			, fabric     : "1.+""
+			, fabric     : "1.+"
 			, sdk        : 23
 			// test
 			, junit       : "4.12"
@@ -83,8 +83,8 @@ task cd << {
 		// TODO: sign release APKs
 		// TODO: deploy to release channels
 }
-ci.dependsOn("build");
-ci.mustRunAfter("build");
+cd.dependsOn("build");
+cd.mustRunAfter("build");
 
 task deployTestBuild << {
 	println "Deploying artifacts to test channel"
