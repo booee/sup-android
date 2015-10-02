@@ -5,6 +5,7 @@ buildscript {
 			, appcompatv7: "23.0.1"
 			, buildTools : "23.0.1"
 			, minSdk     : 16
+			, fabric     : "1.+""
 			, sdk        : 23
 			// test
 			, junit       : "4.12"
@@ -13,22 +14,22 @@ buildscript {
 	}
 	repositories {
 		jcenter()
-    	maven { url 'https://maven.fabric.io/public' }
+    	maven { url "https://maven.fabric.io/public" }
 	}
 	dependencies {
 		classpath group: "com.android.tools.build", name: "gradle", version: project.ext.versions.androidTools
-    	classpath 'io.fabric.tools:gradle:1.+'
+    	classpath group: "io.fabric.tools", name: "gradle", version: project.ext.versions.fabric
 	}
 }
 
 repositories {
 	jcenter()
-    maven { url 'https://maven.fabric.io/public' }
+	maven { url "https://maven.fabric.io/public" }
 }
 
 apply plugin: "com.android.application"
 apply plugin: "idea"
-apply plugin: 'io.fabric'
+apply plugin: "io.fabric"
 
 android {
 	compileSdkVersion project.ext.versions.sdk
@@ -67,17 +68,20 @@ dependencies {
 	testCompile group: "org.mockito", name: "mockito-core", version: project.ext.versions.mockito
 }
 
-task ci << {
-	println "Executing Continuous Integration"
+task cd << {
+	println "Executing Continuous Delivery Tasks"
 
 	String isPR = "$System.env.TRAVIS_PULL_REQUEST"
-
 	if("false" == isPR) {
 		println "Not Pull Request"
 		tasks.deployTestBuild.execute();
 	} else {
 		println "Pull Request detected. Skipping deployTestBuild step"
 	}
+
+	// TODO: deploy release artifacts
+		// TODO: sign release APKs
+		// TODO: deploy to release channels
 }
 ci.dependsOn("build");
 ci.mustRunAfter("build");
