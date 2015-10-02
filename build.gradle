@@ -67,6 +67,21 @@ dependencies {
 	testCompile group: "org.mockito", name: "mockito-core", version: project.ext.versions.mockito
 }
 
+task ci << {
+	println "Executing Continuous Integration"
+
+	String isPR = "$System.env.TRAVIS_PULL_REQUEST"
+
+	if("false" == isPR) {
+		println "Deploying artifacts to test channel"
+		tasks.crashlyticsUploadDistributionDebug.execute();
+	} else {
+		println "Pull Request detected, skipping deployment stage"
+	}
+}
+ci.dependsOn("test");
+ci.mustRunAfter("test");
+
 afterEvaluate {
     initCrashlyticsPropertiesIfNeeded()
 }
