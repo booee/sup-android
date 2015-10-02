@@ -7,7 +7,7 @@ echo
 echo "Runing test suite"
 ./gradlew test
 
-if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then
+if [ "${TRAVIS_PULL_REQUEST}" != "true" ]; then
 
 	echo
 	echo
