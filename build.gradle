@@ -73,14 +73,21 @@ task ci << {
 	String isPR = "$System.env.TRAVIS_PULL_REQUEST"
 
 	if("false" == isPR) {
-		println "Deploying artifacts to test channel"
-		tasks.crashlyticsUploadDistributionDebug.execute();
+		println "Not Pull Request"
+		tasks.deployTestBuild.execute();
 	} else {
-		println "Pull Request detected, skipping deployment stage"
+		println "Pull Request detected. Skipping deployTestBuild step"
 	}
 }
-ci.dependsOn("test");
-ci.mustRunAfter("test");
+ci.dependsOn("build");
+ci.mustRunAfter("build");
+
+task deployTestBuild << {
+	println "Deploying artifacts to test channel"
+	tasks.crashlyticsUploadDistributionDebug.execute();
+}
+deployTestBuild.dependsOn("assembleDebug");
+deployTestBuild.mustRunAfter("assembleDebug");
 
 afterEvaluate {
     initCrashlyticsPropertiesIfNeeded()
